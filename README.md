@@ -1,4 +1,4 @@
-# Opptra Discount Engine — Base Implementation
+# # Opptra Discount Engine — FDE Intern Assignment
 
 **Live deployment:** https://discount-engine-assignment-lyart.vercel.app/
 
@@ -52,18 +52,21 @@ Cart subtotal Rs.5,932 → Rs.4,000 threshold met → 10% cart offer → **Final
 ## Project Structure
 
 src/
-engine/
-discountEngine.js ← pure discount logic (untouched by new input paths)
-csvParser.js ← CSV → typed objects
-LLMParser.js ← Groq API call + validation
-nlParser.js ← local regex fallback parser
-pdfParser.js ← PDF table extraction
-components/
-App.jsx ← state orchestration
+  engine/
+    discountEngine.js   ← pure discount logic (untouched by new input paths)
+    csvParser.js        ← CSV → typed objects
+    LLMParser.js        ← Groq API call + validation
+    nlParser.js         ← local regex fallback parser
+    pdfParser.js        ← PDF table extraction
+  components/
+    CsvUploader.jsx
+    DataTable.jsx
+    ErrorBanner.jsx
+  App.jsx               ← state orchestration
 sample-data/
-rules.csv
-cart.csv
-
+  rules.csv
+  cart.csv
+  
 ## Loom Walkthrough
 
 [Add your Loom link here after recording — must be recorded on the live deployment URL above, not localhost]

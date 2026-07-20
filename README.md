@@ -51,6 +51,7 @@ Cart subtotal Rs.5,932 → Rs.4,000 threshold met → 10% cart offer → **Final
 
 ## Project Structure
 
+​```
 src/
   engine/
     discountEngine.js   ← pure discount logic (untouched by new input paths)
@@ -66,6 +67,7 @@ src/
 sample-data/
   rules.csv
   cart.csv
+​```
   
 ## Loom Walkthrough
 

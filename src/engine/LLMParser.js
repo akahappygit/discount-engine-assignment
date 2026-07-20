@@ -262,6 +262,15 @@ export async function parseRuleWithLLM(userText) {
             }
         }
     }
+
+    // Reject stackable:true when the input gives no textual basis for it —
+    // prevents the model from defaulting a rule to stackable without cause.
+    if (parsed.stackable === true && !/stack/i.test(userText)) {
+        return {
+            success: false,
+            reason: 'The AI marked this as stackable, but your description never mentioned stacking. Please rephrase to clarify (e.g. add "stackable" or "non-stackable").',
+        }
+    }
     // ── Step 7: All checks passed — build the final rule object ──
     // ruleId uses a "RULE-LLM-" prefix (as opposed to "RULE-NL-" from
     // the fallback parser) purely so it's visually obvious, when

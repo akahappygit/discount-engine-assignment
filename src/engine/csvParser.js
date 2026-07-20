@@ -38,7 +38,7 @@ export function parseRulesCSV(csvText) {
 
     if (!row.rule_id) missing.push('rule_id')
     if (!row.scope) missing.push('scope')
-    if (!row.applies_to) missing.push('applies_to')
+    if (row.scope !== 'cart' && !row.applies_to) missing.push('applies_to')
     if (!row.type) missing.push('type')
     if (row.value === undefined || row.value === '') missing.push('value')
     if (row.stackable === undefined || row.stackable === '') missing.push('stackable')
@@ -49,8 +49,8 @@ export function parseRulesCSV(csvText) {
     }
 
     const scope = row.scope.trim().toLowerCase()
-    if (scope !== 'brand' && scope !== 'platform') {
-      errors.push(`Row ${rowNum}: scope must be "brand" or "platform", got "${row.scope}"`)
+    if (scope !== 'brand' && scope !== 'platform' && scope !== 'cart') {
+      errors.push(`Row ${rowNum}: scope must be "brand", "platform", or "cart", got "${row.scope}"`)
       return
     }
 
@@ -66,16 +66,26 @@ export function parseRulesCSV(csvText) {
       return
     }
 
+    let minCartValue = null
+    if (scope === 'cart') {
+     minCartValue = parseFloat(row.min_cart_value)
+     if (isNaN(minCartValue) || minCartValue <= 0) {
+      errors.push(`Row ${rowNum}: cart-scope rule requires a valid min_cart_value, got "${row.min_cart_value}"`)
+      return
+     }
+   }
+
     const stackableStr = row.stackable.trim().toLowerCase()
     const stackable = stackableStr === 'true' || stackableStr === '1' || stackableStr === 'yes'
 
     data.push({
       ruleId: row.rule_id.trim(),
       scope,
-      appliesTo: row.applies_to.trim(),
+      appliesTo: row.applies_to ? row.applies_to.trim() : null,     
       type,
       value,
       stackable,
+      minCartValue,
     })
   })
 

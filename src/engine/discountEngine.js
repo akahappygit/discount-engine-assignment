@@ -131,18 +131,18 @@ export function applyDiscounts(item, rules) {
   const reasoningParts = []
 
   if (winner) {
-    price -= calculateDiscountAmount(price, winner)
+    price = Math.max(0, price - calculateDiscountAmount(price, winner))
     appliedRules.push(winner.ruleId)
     reasoningParts.push(ruleToReasoning(winner))
   }
 
   for (const rule of stackable) {
-    price -= calculateDiscountAmount(price, rule)
+    price = Math.max(0, price - calculateDiscountAmount(price, rule))
     appliedRules.push(rule.ruleId)
     reasoningParts.push(ruleToReasoning(rule))
   }
 
-  const finalPrice = Math.round(price)
+  const finalPrice = Math.max(0, Math.round(price))
 
   return {
     itemId: item.itemId,
@@ -171,4 +171,53 @@ export function processCart(cartItems, rules) {
  */
 export function cartTotal(results) {
   return results.reduce((sum, r) => sum + r.finalPrice, 0)
+}
+
+/**
+ * Applies a cart-level discount rule (like RULE-04) on top of the
+ * item-level results, if the subtotal meets the rule's threshold.
+ *
+ * Logic:
+ *   1. Sum up all item final prices (the subtotal).
+ *   2. Find cart-scope rules where subtotal >= rule.minCartValue.
+ *   3. If more than one qualifies, pick the one with the largest saving
+ *      (same "biggest saving wins" principle used at item-level).
+ *   4. Apply it once, on the subtotal — not per item.
+ */
+export function applyCartOffer(results, rules) {
+  const subtotal = cartTotal(results)
+
+  const cartRules = rules.filter(
+    (r) => r.scope === 'cart' && subtotal >= r.minCartValue
+  )
+
+  if (cartRules.length === 0) {
+    return {
+      applied: false,
+      subtotal,
+      discount: 0,
+      finalTotal: subtotal,
+      rule: null,
+      reasoning: null,
+    }
+  }
+
+  const sorted = [...cartRules].sort(
+    (a, b) =>
+      calculateDiscountAmount(subtotal, b) -
+      calculateDiscountAmount(subtotal, a)
+  )
+  const winner = sorted[0]
+
+  const discount = calculateDiscountAmount(subtotal, winner)
+  const finalTotal = Math.max(0, subtotal - discount)
+
+  return {
+    applied: true,
+    subtotal,
+    discount,
+    finalTotal,
+    rule: winner.ruleId,
+    reasoning: `Cart offer: ${winner.value}% off — Rs.${discount} saved`,
+  }
 }

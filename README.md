@@ -1,4 +1,4 @@
-# # Opptra Discount Engine — FDE Intern Assignment
+# Opptra Discount Engine — FDE Intern Assignment
 
 **Live deployment:** https://discount-engine-assignment-lyart.vercel.app/
 

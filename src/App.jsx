@@ -21,8 +21,16 @@ const RULES_COLUMNS = [
   { key: 'scope', label: 'Scope' },
   { key: 'appliesTo', label: 'Applies To' },
   { key: 'type', label: 'Type' },
-  { key: 'value', label: 'Value' },
-  { key: 'stackable', label: 'Stackable' },
+  {
+    key: 'value',
+    label: 'Value',
+    render: (value, row) => (row.type === 'percentage' ? `${value}%` : `Rs.${value}`),
+  },
+  {
+    key: 'stackable',
+    label: 'Stackable',
+    render: (value) => (value ? 'Yes' : 'No'),
+  },
 ]
 
 const CART_COLUMNS = [

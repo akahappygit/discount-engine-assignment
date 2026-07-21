@@ -46,7 +46,11 @@ const RESULTS_COLUMNS = [
   { key: 'product', label: 'Product' },
   { key: 'basePrice', label: 'Base Price' },
   { key: 'finalPrice', label: 'Final Price' },
-  { key: 'saved', label: 'You Save' },
+  {
+    key: 'totalDiscount',
+    label: 'You Save',
+    render: (value) => (value > 0 ? `Rs.${value}` : '—'),
+  },
   { key: 'reasoning', label: 'Offer Applied' },
 ]
 

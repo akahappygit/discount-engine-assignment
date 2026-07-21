@@ -41,17 +41,33 @@ const CART_COLUMNS = [
   { key: 'basePrice', label: 'Base Price' },
 ]
 
-const RESULTS_COLUMNS = [
-  { key: 'itemId', label: 'Item' },
-  { key: 'product', label: 'Product' },
-  { key: 'basePrice', label: 'Base Price' },
-  { key: 'finalPrice', label: 'Final Price' },
+const RULES_COLUMNS = [
+  { key: 'ruleId', label: 'Rule ID' },
   {
-    key: 'totalDiscount',
-    label: 'You Save',
-    render: (value) => (value > 0 ? `Rs.${value}` : '—'),
+    key: 'scope',
+    label: 'Scope',
+    render: (value) => value.charAt(0).toUpperCase() + value.slice(1),
   },
-  { key: 'reasoning', label: 'Offer Applied' },
+  {
+    key: 'appliesTo',
+    label: 'Applies To',
+    render: (value, row) => (row.scope === 'cart' ? 'Entire cart' : value),
+  },
+  {
+    key: 'type',
+    label: 'Type',
+    render: (value) => value.charAt(0).toUpperCase() + value.slice(1),
+  },
+  {
+    key: 'value',
+    label: 'Value',
+    render: (value, row) => (row.type === 'percentage' ? `${value}%` : `Rs.${value}`),
+  },
+  {
+    key: 'stackable',
+    label: 'Stackable',
+    render: (value) => (value ? 'Yes' : 'No'),
+  },
 ]
 
 // ── Shared inline styles ──

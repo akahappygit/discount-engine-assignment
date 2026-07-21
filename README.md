@@ -2,6 +2,11 @@
 
 **Live deployment:** https://discount-engine-assignment-lyart.vercel.app/
 
+## Loom Walkthrough
+
+https://www.loom.com/share/e94746e912f14e27b6a71bf172b7fcd4
+
+
 ## Running locally
 
 ```bash
@@ -69,8 +74,4 @@ rules.csv
 cart.csv
 ```
 ​
-## Loom Walkthrough
-
-[Add your Loom link here after recording — must be recorded on the live deployment URL above, not localhost]
-
 

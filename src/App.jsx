@@ -54,6 +54,19 @@ const RULES_COLUMNS = [
   },
 ]
 
+const RESULTS_COLUMNS = [
+  { key: 'itemId', label: 'Item' },
+  { key: 'product', label: 'Product' },
+  { key: 'basePrice', label: 'Base Price' },
+  { key: 'finalPrice', label: 'Final Price' },
+  {
+    key: 'totalDiscount',
+    label: 'You Save',
+    render: (value) => (value > 0 ? `Rs.${value}` : '—'),
+  },
+  { key: 'reasoning', label: 'Offer Applied' },
+]
+
 // ── Shared inline styles ──
 const S = {
   page: { fontFamily: 'system-ui, -apple-system, sans-serif', background: '#f5f5f7', minHeight: '100vh' },

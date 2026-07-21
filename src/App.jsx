@@ -16,22 +16,6 @@ import { parseRuleWithLLM } from './engine/LLMParser.js'
 import { parseCartPDF } from './engine/pdfParser.js'
 
 // ── Column definitions ──
-const RULES_COLUMNS = [
-  { key: 'ruleId', label: 'Rule ID' },
-  { key: 'scope', label: 'Scope' },
-  { key: 'appliesTo', label: 'Applies To' },
-  { key: 'type', label: 'Type' },
-  {
-    key: 'value',
-    label: 'Value',
-    render: (value, row) => (row.type === 'percentage' ? `${value}%` : `Rs.${value}`),
-  },
-  {
-    key: 'stackable',
-    label: 'Stackable',
-    render: (value) => (value ? 'Yes' : 'No'),
-  },
-]
 
 const CART_COLUMNS = [
   { key: 'itemId', label: 'Item' },
